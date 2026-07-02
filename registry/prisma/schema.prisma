@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum ReminderChannel {
+  SMS
+  EMAIL
+  PHONE
+}
+
+enum Species {
+  DOG
+  CAT
+  RABBIT
+  GUINEA_PIG
+  EXOTIC
+}
+
+enum Sex {
+  MALE
+  FEMALE
+}
+
+model Owner {
+  id               String          @id @default(uuid())
+  firstName        String          @map("first_name")
+  lastName         String          @map("last_name")
+  email            String          @unique
+  phone            String
+  address          String
+  reminderChannel  ReminderChannel @map("reminder_channel")
+  gdprConsent      Boolean         @map("gdpr_consent")
+  gdprConsentDate  DateTime        @map("gdpr_consent_date")
+  createdAt        DateTime        @default(now()) @map("created_at")
+  animals          Animal[]
+
+  @@map("owners")
+}
+
+model Animal {
+  id                String             @id @default(uuid())
+  ownerId           String             @map("owner_id")
+  name              String
+  species           Species
+  breed             String?
+  dateOfBirth       DateTime           @map("date_of_birth")
+  sex               Sex
+  createdAt         DateTime           @default(now()) @map("created_at")
+  owner             Owner              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  patientIdentifier PatientIdentifier?
+  vaccinations      Vaccination[]
+
+  @@map("animals")
+}
+
+model PatientIdentifier {
+  id                  String   @id @default(uuid())
+  animalId            String   @unique @map("animal_id")
+  chipNumber          String?  @map("chip_number")
+  vetbaseRecordId     String?  @map("vetbase_record_id")
+  labAccessionNumber  String?  @map("lab_accession_number")
+  createdAt           DateTime @default(now()) @map("created_at")
+  animal              Animal   @relation(fields: [animalId], references: [id], onDelete: Cascade)
+
+  @@map("patient_identifiers")
+}
+
+model Vaccination {
+  id               String   @id @default(uuid())
+  animalId         String   @map("animal_id")
+  vaccineName      String   @map("vaccine_name")
+  administeredDate DateTime @map("administered_date")
+  nextDueDate      DateTime? @map("next_due_date")
+  batchNumber      String?  @map("batch_number")
+  administeredBy   String   @map("administered_by")
+  createdAt        DateTime @default(now()) @map("created_at")
+  animal           Animal   @relation(fields: [animalId], references: [id], onDelete: Cascade)
+
+  @@map("vaccinations")
+}
