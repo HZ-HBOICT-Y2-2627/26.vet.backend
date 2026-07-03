@@ -3,7 +3,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { ownersRouter } from './routes/owners';
 import { animalsRouter } from './routes/animals';
+import { vaccinationsRouter } from './routes/vaccinations';
 import { errorHandler } from './middleware/errorHandling';
+import { requestLogger } from './middleware/requestLogger';
 
 dotenv.config();
 
@@ -14,6 +16,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use(requestLogger);
 
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', environment: NODE_ENV });
@@ -21,6 +24,7 @@ app.get('/health', (_req, res) => {
 
 app.use('/owners', ownersRouter);
 app.use('/animals', animalsRouter);
+app.use('/vaccinations', vaccinationsRouter);
 
 app.use(errorHandler);
 
