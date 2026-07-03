@@ -1,4 +1,4 @@
-# week_3_start — Branch Notes
+# week_4_start — Branch Notes
 
 Improvements made on this branch to the `registry` API (see [registry/README.md](registry/README.md) for full project docs).
 
