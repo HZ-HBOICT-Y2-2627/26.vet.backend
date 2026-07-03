@@ -33,6 +33,8 @@ export type AnimalMinAggregateOutputType = {
   dateOfBirth: Date | null
   sex: $Enums.Sex | null
   createdAt: Date | null
+  deleted: boolean | null
+  deletedAt: Date | null
 }
 
 export type AnimalMaxAggregateOutputType = {
@@ -44,6 +46,8 @@ export type AnimalMaxAggregateOutputType = {
   dateOfBirth: Date | null
   sex: $Enums.Sex | null
   createdAt: Date | null
+  deleted: boolean | null
+  deletedAt: Date | null
 }
 
 export type AnimalCountAggregateOutputType = {
@@ -55,6 +59,8 @@ export type AnimalCountAggregateOutputType = {
   dateOfBirth: number
   sex: number
   createdAt: number
+  deleted: number
+  deletedAt: number
   _all: number
 }
 
@@ -68,6 +74,8 @@ export type AnimalMinAggregateInputType = {
   dateOfBirth?: true
   sex?: true
   createdAt?: true
+  deleted?: true
+  deletedAt?: true
 }
 
 export type AnimalMaxAggregateInputType = {
@@ -79,6 +87,8 @@ export type AnimalMaxAggregateInputType = {
   dateOfBirth?: true
   sex?: true
   createdAt?: true
+  deleted?: true
+  deletedAt?: true
 }
 
 export type AnimalCountAggregateInputType = {
@@ -90,6 +100,8 @@ export type AnimalCountAggregateInputType = {
   dateOfBirth?: true
   sex?: true
   createdAt?: true
+  deleted?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -174,6 +186,8 @@ export type AnimalGroupByOutputType = {
   dateOfBirth: Date
   sex: $Enums.Sex
   createdAt: Date
+  deleted: boolean
+  deletedAt: Date | null
   _count: AnimalCountAggregateOutputType | null
   _min: AnimalMinAggregateOutputType | null
   _max: AnimalMaxAggregateOutputType | null
@@ -206,6 +220,8 @@ export type AnimalWhereInput = {
   dateOfBirth?: Prisma.DateTimeFilter<"Animal"> | Date | string
   sex?: Prisma.EnumSexFilter<"Animal"> | $Enums.Sex
   createdAt?: Prisma.DateTimeFilter<"Animal"> | Date | string
+  deleted?: Prisma.BoolFilter<"Animal"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Animal"> | Date | string | null
   owner?: Prisma.XOR<Prisma.OwnerScalarRelationFilter, Prisma.OwnerWhereInput>
   patientIdentifier?: Prisma.XOR<Prisma.PatientIdentifierNullableScalarRelationFilter, Prisma.PatientIdentifierWhereInput> | null
   vaccinations?: Prisma.VaccinationListRelationFilter
@@ -220,6 +236,8 @@ export type AnimalOrderByWithRelationInput = {
   dateOfBirth?: Prisma.SortOrder
   sex?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   owner?: Prisma.OwnerOrderByWithRelationInput
   patientIdentifier?: Prisma.PatientIdentifierOrderByWithRelationInput
   vaccinations?: Prisma.VaccinationOrderByRelationAggregateInput
@@ -237,6 +255,8 @@ export type AnimalWhereUniqueInput = Prisma.AtLeast<{
   dateOfBirth?: Prisma.DateTimeFilter<"Animal"> | Date | string
   sex?: Prisma.EnumSexFilter<"Animal"> | $Enums.Sex
   createdAt?: Prisma.DateTimeFilter<"Animal"> | Date | string
+  deleted?: Prisma.BoolFilter<"Animal"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Animal"> | Date | string | null
   owner?: Prisma.XOR<Prisma.OwnerScalarRelationFilter, Prisma.OwnerWhereInput>
   patientIdentifier?: Prisma.XOR<Prisma.PatientIdentifierNullableScalarRelationFilter, Prisma.PatientIdentifierWhereInput> | null
   vaccinations?: Prisma.VaccinationListRelationFilter
@@ -251,6 +271,8 @@ export type AnimalOrderByWithAggregationInput = {
   dateOfBirth?: Prisma.SortOrder
   sex?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AnimalCountOrderByAggregateInput
   _max?: Prisma.AnimalMaxOrderByAggregateInput
   _min?: Prisma.AnimalMinOrderByAggregateInput
@@ -268,6 +290,8 @@ export type AnimalScalarWhereWithAggregatesInput = {
   dateOfBirth?: Prisma.DateTimeWithAggregatesFilter<"Animal"> | Date | string
   sex?: Prisma.EnumSexWithAggregatesFilter<"Animal"> | $Enums.Sex
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Animal"> | Date | string
+  deleted?: Prisma.BoolWithAggregatesFilter<"Animal"> | boolean
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Animal"> | Date | string | null
 }
 
 export type AnimalCreateInput = {
@@ -278,6 +302,8 @@ export type AnimalCreateInput = {
   dateOfBirth: Date | string
   sex: $Enums.Sex
   createdAt?: Date | string
+  deleted?: boolean
+  deletedAt?: Date | string | null
   owner: Prisma.OwnerCreateNestedOneWithoutAnimalsInput
   patientIdentifier?: Prisma.PatientIdentifierCreateNestedOneWithoutAnimalInput
   vaccinations?: Prisma.VaccinationCreateNestedManyWithoutAnimalInput
@@ -292,6 +318,8 @@ export type AnimalUncheckedCreateInput = {
   dateOfBirth: Date | string
   sex: $Enums.Sex
   createdAt?: Date | string
+  deleted?: boolean
+  deletedAt?: Date | string | null
   patientIdentifier?: Prisma.PatientIdentifierUncheckedCreateNestedOneWithoutAnimalInput
   vaccinations?: Prisma.VaccinationUncheckedCreateNestedManyWithoutAnimalInput
 }
@@ -304,6 +332,8 @@ export type AnimalUpdateInput = {
   dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   owner?: Prisma.OwnerUpdateOneRequiredWithoutAnimalsNestedInput
   patientIdentifier?: Prisma.PatientIdentifierUpdateOneWithoutAnimalNestedInput
   vaccinations?: Prisma.VaccinationUpdateManyWithoutAnimalNestedInput
@@ -318,6 +348,8 @@ export type AnimalUncheckedUpdateInput = {
   dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   patientIdentifier?: Prisma.PatientIdentifierUncheckedUpdateOneWithoutAnimalNestedInput
   vaccinations?: Prisma.VaccinationUncheckedUpdateManyWithoutAnimalNestedInput
 }
@@ -331,6 +363,8 @@ export type AnimalCreateManyInput = {
   dateOfBirth: Date | string
   sex: $Enums.Sex
   createdAt?: Date | string
+  deleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type AnimalUpdateManyMutationInput = {
@@ -341,6 +375,8 @@ export type AnimalUpdateManyMutationInput = {
   dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type AnimalUncheckedUpdateManyInput = {
@@ -352,6 +388,8 @@ export type AnimalUncheckedUpdateManyInput = {
   dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type AnimalListRelationFilter = {
@@ -373,6 +411,8 @@ export type AnimalCountOrderByAggregateInput = {
   dateOfBirth?: Prisma.SortOrder
   sex?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type AnimalMaxOrderByAggregateInput = {
@@ -384,6 +424,8 @@ export type AnimalMaxOrderByAggregateInput = {
   dateOfBirth?: Prisma.SortOrder
   sex?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type AnimalMinOrderByAggregateInput = {
@@ -395,6 +437,8 @@ export type AnimalMinOrderByAggregateInput = {
   dateOfBirth?: Prisma.SortOrder
   sex?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type AnimalScalarRelationFilter = {
@@ -456,6 +500,10 @@ export type EnumSexFieldUpdateOperationsInput = {
   set?: $Enums.Sex
 }
 
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
 export type AnimalCreateNestedOneWithoutPatientIdentifierInput = {
   create?: Prisma.XOR<Prisma.AnimalCreateWithoutPatientIdentifierInput, Prisma.AnimalUncheckedCreateWithoutPatientIdentifierInput>
   connectOrCreate?: Prisma.AnimalCreateOrConnectWithoutPatientIdentifierInput
@@ -492,6 +540,8 @@ export type AnimalCreateWithoutOwnerInput = {
   dateOfBirth: Date | string
   sex: $Enums.Sex
   createdAt?: Date | string
+  deleted?: boolean
+  deletedAt?: Date | string | null
   patientIdentifier?: Prisma.PatientIdentifierCreateNestedOneWithoutAnimalInput
   vaccinations?: Prisma.VaccinationCreateNestedManyWithoutAnimalInput
 }
@@ -504,6 +554,8 @@ export type AnimalUncheckedCreateWithoutOwnerInput = {
   dateOfBirth: Date | string
   sex: $Enums.Sex
   createdAt?: Date | string
+  deleted?: boolean
+  deletedAt?: Date | string | null
   patientIdentifier?: Prisma.PatientIdentifierUncheckedCreateNestedOneWithoutAnimalInput
   vaccinations?: Prisma.VaccinationUncheckedCreateNestedManyWithoutAnimalInput
 }
@@ -545,6 +597,8 @@ export type AnimalScalarWhereInput = {
   dateOfBirth?: Prisma.DateTimeFilter<"Animal"> | Date | string
   sex?: Prisma.EnumSexFilter<"Animal"> | $Enums.Sex
   createdAt?: Prisma.DateTimeFilter<"Animal"> | Date | string
+  deleted?: Prisma.BoolFilter<"Animal"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Animal"> | Date | string | null
 }
 
 export type AnimalCreateWithoutPatientIdentifierInput = {
@@ -555,6 +609,8 @@ export type AnimalCreateWithoutPatientIdentifierInput = {
   dateOfBirth: Date | string
   sex: $Enums.Sex
   createdAt?: Date | string
+  deleted?: boolean
+  deletedAt?: Date | string | null
   owner: Prisma.OwnerCreateNestedOneWithoutAnimalsInput
   vaccinations?: Prisma.VaccinationCreateNestedManyWithoutAnimalInput
 }
@@ -568,6 +624,8 @@ export type AnimalUncheckedCreateWithoutPatientIdentifierInput = {
   dateOfBirth: Date | string
   sex: $Enums.Sex
   createdAt?: Date | string
+  deleted?: boolean
+  deletedAt?: Date | string | null
   vaccinations?: Prisma.VaccinationUncheckedCreateNestedManyWithoutAnimalInput
 }
 
@@ -595,6 +653,8 @@ export type AnimalUpdateWithoutPatientIdentifierInput = {
   dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   owner?: Prisma.OwnerUpdateOneRequiredWithoutAnimalsNestedInput
   vaccinations?: Prisma.VaccinationUpdateManyWithoutAnimalNestedInput
 }
@@ -608,6 +668,8 @@ export type AnimalUncheckedUpdateWithoutPatientIdentifierInput = {
   dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinations?: Prisma.VaccinationUncheckedUpdateManyWithoutAnimalNestedInput
 }
 
@@ -619,6 +681,8 @@ export type AnimalCreateWithoutVaccinationsInput = {
   dateOfBirth: Date | string
   sex: $Enums.Sex
   createdAt?: Date | string
+  deleted?: boolean
+  deletedAt?: Date | string | null
   owner: Prisma.OwnerCreateNestedOneWithoutAnimalsInput
   patientIdentifier?: Prisma.PatientIdentifierCreateNestedOneWithoutAnimalInput
 }
@@ -632,6 +696,8 @@ export type AnimalUncheckedCreateWithoutVaccinationsInput = {
   dateOfBirth: Date | string
   sex: $Enums.Sex
   createdAt?: Date | string
+  deleted?: boolean
+  deletedAt?: Date | string | null
   patientIdentifier?: Prisma.PatientIdentifierUncheckedCreateNestedOneWithoutAnimalInput
 }
 
@@ -659,6 +725,8 @@ export type AnimalUpdateWithoutVaccinationsInput = {
   dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   owner?: Prisma.OwnerUpdateOneRequiredWithoutAnimalsNestedInput
   patientIdentifier?: Prisma.PatientIdentifierUpdateOneWithoutAnimalNestedInput
 }
@@ -672,6 +740,8 @@ export type AnimalUncheckedUpdateWithoutVaccinationsInput = {
   dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   patientIdentifier?: Prisma.PatientIdentifierUncheckedUpdateOneWithoutAnimalNestedInput
 }
 
@@ -683,6 +753,8 @@ export type AnimalCreateManyOwnerInput = {
   dateOfBirth: Date | string
   sex: $Enums.Sex
   createdAt?: Date | string
+  deleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type AnimalUpdateWithoutOwnerInput = {
@@ -693,6 +765,8 @@ export type AnimalUpdateWithoutOwnerInput = {
   dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   patientIdentifier?: Prisma.PatientIdentifierUpdateOneWithoutAnimalNestedInput
   vaccinations?: Prisma.VaccinationUpdateManyWithoutAnimalNestedInput
 }
@@ -705,6 +779,8 @@ export type AnimalUncheckedUpdateWithoutOwnerInput = {
   dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   patientIdentifier?: Prisma.PatientIdentifierUncheckedUpdateOneWithoutAnimalNestedInput
   vaccinations?: Prisma.VaccinationUncheckedUpdateManyWithoutAnimalNestedInput
 }
@@ -717,6 +793,8 @@ export type AnimalUncheckedUpdateManyWithoutOwnerInput = {
   dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -759,6 +837,8 @@ export type AnimalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   dateOfBirth?: boolean
   sex?: boolean
   createdAt?: boolean
+  deleted?: boolean
+  deletedAt?: boolean
   owner?: boolean | Prisma.OwnerDefaultArgs<ExtArgs>
   patientIdentifier?: boolean | Prisma.Animal$patientIdentifierArgs<ExtArgs>
   vaccinations?: boolean | Prisma.Animal$vaccinationsArgs<ExtArgs>
@@ -774,6 +854,8 @@ export type AnimalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   dateOfBirth?: boolean
   sex?: boolean
   createdAt?: boolean
+  deleted?: boolean
+  deletedAt?: boolean
   owner?: boolean | Prisma.OwnerDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["animal"]>
 
@@ -786,6 +868,8 @@ export type AnimalSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   dateOfBirth?: boolean
   sex?: boolean
   createdAt?: boolean
+  deleted?: boolean
+  deletedAt?: boolean
   owner?: boolean | Prisma.OwnerDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["animal"]>
 
@@ -798,9 +882,11 @@ export type AnimalSelectScalar = {
   dateOfBirth?: boolean
   sex?: boolean
   createdAt?: boolean
+  deleted?: boolean
+  deletedAt?: boolean
 }
 
-export type AnimalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ownerId" | "name" | "species" | "breed" | "dateOfBirth" | "sex" | "createdAt", ExtArgs["result"]["animal"]>
+export type AnimalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ownerId" | "name" | "species" | "breed" | "dateOfBirth" | "sex" | "createdAt" | "deleted" | "deletedAt", ExtArgs["result"]["animal"]>
 export type AnimalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.OwnerDefaultArgs<ExtArgs>
   patientIdentifier?: boolean | Prisma.Animal$patientIdentifierArgs<ExtArgs>
@@ -830,6 +916,8 @@ export type $AnimalPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     dateOfBirth: Date
     sex: $Enums.Sex
     createdAt: Date
+    deleted: boolean
+    deletedAt: Date | null
   }, ExtArgs["result"]["animal"]>
   composites: {}
 }
@@ -1264,6 +1352,8 @@ export interface AnimalFieldRefs {
   readonly dateOfBirth: Prisma.FieldRef<"Animal", 'DateTime'>
   readonly sex: Prisma.FieldRef<"Animal", 'Sex'>
   readonly createdAt: Prisma.FieldRef<"Animal", 'DateTime'>
+  readonly deleted: Prisma.FieldRef<"Animal", 'Boolean'>
+  readonly deletedAt: Prisma.FieldRef<"Animal", 'DateTime'>
 }
     
 

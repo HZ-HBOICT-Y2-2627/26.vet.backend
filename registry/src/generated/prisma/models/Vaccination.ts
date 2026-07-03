@@ -425,10 +425,6 @@ export type VaccinationUncheckedUpdateManyWithoutAnimalNestedInput = {
   deleteMany?: Prisma.VaccinationScalarWhereInput | Prisma.VaccinationScalarWhereInput[]
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type VaccinationCreateWithoutAnimalInput = {
   id?: string
   vaccineName: string

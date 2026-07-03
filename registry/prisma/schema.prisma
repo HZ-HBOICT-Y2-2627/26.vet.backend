@@ -51,6 +51,8 @@ model Animal {
   dateOfBirth       DateTime           @map("date_of_birth")
   sex               Sex
   createdAt         DateTime           @default(now()) @map("created_at")
+  deleted           Boolean            @default(false)
+  deletedAt         DateTime?          @map("deleted_at")
   owner             Owner              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   patientIdentifier PatientIdentifier?
   vaccinations      Vaccination[]

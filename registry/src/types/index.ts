@@ -24,6 +24,8 @@ export interface Animal {
   dateOfBirth: Date;
   sex: Sex;
   createdAt: Date;
+  deleted: boolean;
+  deletedAt: Date | null;
 }
 
 export interface PatientIdentifier {

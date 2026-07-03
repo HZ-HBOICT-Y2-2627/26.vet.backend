@@ -94,7 +94,9 @@ export const AnimalScalarFieldEnum = {
   breed: 'breed',
   dateOfBirth: 'dateOfBirth',
   sex: 'sex',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  deleted: 'deleted',
+  deletedAt: 'deletedAt'
 } as const
 
 export type AnimalScalarFieldEnum = (typeof AnimalScalarFieldEnum)[keyof typeof AnimalScalarFieldEnum]

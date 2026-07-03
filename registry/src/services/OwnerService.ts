@@ -1,6 +1,11 @@
 import { prisma } from '../lib/prisma';
+import { CreateOwnerInput } from '../validation/schemas';
 
 export class OwnerService {
+  async create(data: CreateOwnerInput) {
+    return prisma.owner.create({ data });
+  }
+
   async getAll() {
     return prisma.owner.findMany({
       include: { animals: true },
