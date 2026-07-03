@@ -1,8 +1,10 @@
 import { prisma } from '../lib/prisma';
+import { Species } from '../generated/prisma/enums';
 
 export class AnimalService {
-  async getAll() {
+  async getAll(species?: Species) {
     return prisma.animal.findMany({
+      where: species ? { species } : undefined,
       include: { owner: true, patientIdentifier: true },
       orderBy: { name: 'asc' },
     });
