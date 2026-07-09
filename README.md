@@ -126,6 +126,36 @@ Returns `404 NOT_FOUND` if the animal doesn't exist or was already deleted.
 - [registry/src/routes/animals.ts](registry/src/routes/animals.ts)
 - [registry/src/services/AnimalService.ts](registry/src/services/AnimalService.ts)
 
+## 8. GDPR consent moved to its own history table
+
+`gdprConsent` / `gdprConsentDate` used to live as two columns directly on `Owner`. Since a consent decision can be granted, withdrawn, and re-granted over time, storing it as columns meant every update overwrote the previous decision — no audit trail of what an owner had actually agreed to, or when. Consent is now tracked in a new `ConsentRecord` table, one-to-many from `Owner`, so each decision is an immutable row instead of a value that gets clobbered.
+
+`POST /owners` still accepts `gdprConsent` / `gdprConsentDate` in the request body — it now creates the owner's first `ConsentRecord`. `GET /owners` and `GET /owners/:id` return a `consentRecords` array (newest first) instead of the old top-level `gdprConsent` fields:
+
+```http
+GET /owners
+→ {
+  "data": [
+    {
+      "id": "...",
+      "firstName": "Anke",
+      ...
+      "consentRecords": [
+        { "id": "...", "ownerId": "...", "granted": true, "consentDate": "2024-03-01T00:00:00.000Z", "createdAt": "..." }
+      ]
+    }
+  ]
+}
+```
+
+Existing owners' `gdpr_consent` / `gdpr_consent_date` values were backfilled into one `ConsentRecord` each as part of the migration, so no consent history was lost.
+
+- [registry/prisma/schema.prisma](registry/prisma/schema.prisma) — new `ConsentRecord` model, fields removed from `Owner`
+- [registry/prisma/migrations/20260709070932_move_gdpr_consent_to_consent_records](registry/prisma/migrations/20260709070932_move_gdpr_consent_to_consent_records) — schema change + data backfill
+- [registry/src/services/OwnerService.ts](registry/src/services/OwnerService.ts)
+- [registry/src/types/index.ts](registry/src/types/index.ts)
+- [registry/prisma/seed.ts](registry/prisma/seed.ts)
+
 ---
 
 ## How to: Update an existing database table with Prisma
@@ -171,3 +201,57 @@ Steps to change a table's shape (add/remove/rename a column, change a type, etc.
 5. **Use the new field in the service/route layer** — e.g. include it in a `where` filter, a Zod schema in [registry/src/validation/schemas.ts](registry/src/validation/schemas.ts), or the `data` object passed to `prisma.<model>.create()` / `.update()`.
 
 6. **Verify**: `npx tsc --noEmit` to catch any place still missing the field, then start the dev server and hit the affected routes to confirm the new column round-trips correctly.
+
+---
+
+## How to: Extract a field into a related table (with data backfill)
+
+Same idea as above, but for a bigger reshape: moving one or more columns off a table into a new related table, without losing the data already in those columns. Worked example below is section 8, splitting `Owner.gdprConsent` / `Owner.gdprConsentDate` out into `ConsentRecord`.
+
+1. **Edit the schema**: remove the field(s) from the source model, add the new model with a relation back to it.
+
+   ```prisma
+   model Owner {
+     // ...existing fields
+     consentRecords ConsentRecord[]
+   }
+
+   model ConsentRecord {
+     id          String   @id @default(uuid())
+     ownerId     String   @map("owner_id")
+     granted     Boolean
+     consentDate DateTime @map("consent_date")
+     createdAt   DateTime @default(now()) @map("created_at")
+     owner       Owner    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+   }
+   ```
+
+2. **Generate the migration SQL without applying it.** `prisma migrate dev` refuses to run non-interactively when it detects a data-losing change (dropping a non-empty column), so generate the raw SQL instead:
+
+   ```bash
+   npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --script
+   ```
+
+3. **Hand-edit the migration to backfill data** before the old column is dropped. Save the output into a new folder under `prisma/migrations/<timestamp>_<name>/migration.sql`, and insert a data-migration step between the `CREATE TABLE` for the new model and the `RedefineTables` block that rebuilds the source table:
+
+   ```sql
+   -- Backfill: turn each owner's existing gdpr_consent/gdpr_consent_date into its initial consent record
+   INSERT INTO "consent_records" ("id", "owner_id", "granted", "consent_date", "created_at")
+   SELECT
+       lower(hex(randomblob(4)) || '-' || hex(randomblob(2)) || '-4' || substr(hex(randomblob(2)), 2) || '-' || substr('89ab', abs(random()) % 4 + 1, 1) || substr(hex(randomblob(2)), 2) || '-' || hex(randomblob(6))),
+       "id", "gdpr_consent", "gdpr_consent_date", "created_at"
+   FROM "owners";
+   ```
+
+   SQLite has no built-in UUID generator, hence the `randomblob`/`hex` expression to produce one per row.
+
+4. **Apply it and regenerate the client**:
+
+   ```bash
+   npx prisma migrate deploy   # applies pending migrations, non-interactive
+   npx prisma generate
+   ```
+
+5. **Update the application layer**: hand-written types ([registry/src/types/index.ts](registry/src/types/index.ts)), the service's `create`/`getAll`/`getById` methods to nest-create and `include` the new relation ([registry/src/services/OwnerService.ts](registry/src/services/OwnerService.ts)), and the seed script ([registry/prisma/seed.ts](registry/prisma/seed.ts)).
+
+6. **Verify**: `npx tsc --noEmit`, re-run `npm run prisma:seed`, then hit the affected routes (`GET`/`POST /owners`) against the dev server and confirm the backfilled and newly created records show up correctly under the new relation.

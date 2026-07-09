@@ -34,12 +34,22 @@ model Owner {
   phone            String
   address          String
   reminderChannel  ReminderChannel @map("reminder_channel")
-  gdprConsent      Boolean         @map("gdpr_consent")
-  gdprConsentDate  DateTime        @map("gdpr_consent_date")
   createdAt        DateTime        @default(now()) @map("created_at")
   animals          Animal[]
+  consentRecords   ConsentRecord[]
 
   @@map("owners")
+}
+
+model ConsentRecord {
+  id          String   @id @default(uuid())
+  ownerId     String   @map("owner_id")
+  granted     Boolean
+  consentDate DateTime @map("consent_date")
+  createdAt   DateTime @default(now()) @map("created_at")
+  owner       Owner    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@map("consent_records")
 }
 
 model Animal {

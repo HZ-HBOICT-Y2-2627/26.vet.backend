@@ -45,6 +45,11 @@ export { Prisma }
  */
 export type Owner = Prisma.OwnerModel
 /**
+ * Model ConsentRecord
+ * 
+ */
+export type ConsentRecord = Prisma.ConsentRecordModel
+/**
  * Model Animal
  * 
  */

@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Owner: 'Owner',
+  ConsentRecord: 'ConsentRecord',
   Animal: 'Animal',
   PatientIdentifier: 'PatientIdentifier',
   Vaccination: 'Vaccination'
@@ -78,12 +79,21 @@ export const OwnerScalarFieldEnum = {
   phone: 'phone',
   address: 'address',
   reminderChannel: 'reminderChannel',
-  gdprConsent: 'gdprConsent',
-  gdprConsentDate: 'gdprConsentDate',
   createdAt: 'createdAt'
 } as const
 
 export type OwnerScalarFieldEnum = (typeof OwnerScalarFieldEnum)[keyof typeof OwnerScalarFieldEnum]
+
+
+export const ConsentRecordScalarFieldEnum = {
+  id: 'id',
+  ownerId: 'ownerId',
+  granted: 'granted',
+  consentDate: 'consentDate',
+  createdAt: 'createdAt'
+} as const
+
+export type ConsentRecordScalarFieldEnum = (typeof ConsentRecordScalarFieldEnum)[keyof typeof ConsentRecordScalarFieldEnum]
 
 
 export const AnimalScalarFieldEnum = {

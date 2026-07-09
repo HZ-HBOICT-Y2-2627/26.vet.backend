@@ -13,6 +13,7 @@ async function main() {
   await prisma.vaccination.deleteMany();
   await prisma.patientIdentifier.deleteMany();
   await prisma.animal.deleteMany();
+  await prisma.consentRecord.deleteMany();
   await prisma.owner.deleteMany();
 
   // --- Owners ---
@@ -25,8 +26,9 @@ async function main() {
       phone: '+31612345678',
       address: 'Kerkstraat 14, 1234 AB Amsterdam',
       reminderChannel: 'EMAIL',
-      gdprConsent: true,
-      gdprConsentDate: new Date('2024-03-01'),
+      consentRecords: {
+        create: { granted: true, consentDate: new Date('2024-03-01') },
+      },
     },
   });
 
@@ -38,8 +40,9 @@ async function main() {
       phone: '+31687654321',
       address: 'Molenweg 3, 5678 CD Utrecht',
       reminderChannel: 'SMS',
-      gdprConsent: true,
-      gdprConsentDate: new Date('2024-06-15'),
+      consentRecords: {
+        create: { granted: true, consentDate: new Date('2024-06-15') },
+      },
     },
   });
 
@@ -51,8 +54,9 @@ async function main() {
       phone: '+31623456789',
       address: 'Wilhelminastraat 88, 9012 EF Rotterdam',
       reminderChannel: 'PHONE',
-      gdprConsent: true,
-      gdprConsentDate: new Date('2025-01-10'),
+      consentRecords: {
+        create: { granted: true, consentDate: new Date('2025-01-10') },
+      },
     },
   });
 

@@ -23,6 +23,11 @@ export * from './enums';
  */
 export type Owner = Prisma.OwnerModel
 /**
+ * Model ConsentRecord
+ * 
+ */
+export type ConsentRecord = Prisma.ConsentRecordModel
+/**
  * Model Animal
  * 
  */

@@ -10,8 +10,14 @@ export interface Owner {
   phone: string;
   address: string;
   reminderChannel: ReminderChannel;
-  gdprConsent: boolean;
-  gdprConsentDate: Date;
+  createdAt: Date;
+}
+
+export interface ConsentRecord {
+  id: string;
+  ownerId: string;
+  granted: boolean;
+  consentDate: Date;
   createdAt: Date;
 }
 
@@ -50,6 +56,7 @@ export interface Vaccination {
 
 export interface OwnerWithAnimals extends Owner {
   animals: AnimalWithRelations[];
+  consentRecords: ConsentRecord[];
 }
 
 export interface AnimalWithRelations extends Animal {

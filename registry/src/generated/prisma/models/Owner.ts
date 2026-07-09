@@ -32,8 +32,6 @@ export type OwnerMinAggregateOutputType = {
   phone: string | null
   address: string | null
   reminderChannel: $Enums.ReminderChannel | null
-  gdprConsent: boolean | null
-  gdprConsentDate: Date | null
   createdAt: Date | null
 }
 
@@ -45,8 +43,6 @@ export type OwnerMaxAggregateOutputType = {
   phone: string | null
   address: string | null
   reminderChannel: $Enums.ReminderChannel | null
-  gdprConsent: boolean | null
-  gdprConsentDate: Date | null
   createdAt: Date | null
 }
 
@@ -58,8 +54,6 @@ export type OwnerCountAggregateOutputType = {
   phone: number
   address: number
   reminderChannel: number
-  gdprConsent: number
-  gdprConsentDate: number
   createdAt: number
   _all: number
 }
@@ -73,8 +67,6 @@ export type OwnerMinAggregateInputType = {
   phone?: true
   address?: true
   reminderChannel?: true
-  gdprConsent?: true
-  gdprConsentDate?: true
   createdAt?: true
 }
 
@@ -86,8 +78,6 @@ export type OwnerMaxAggregateInputType = {
   phone?: true
   address?: true
   reminderChannel?: true
-  gdprConsent?: true
-  gdprConsentDate?: true
   createdAt?: true
 }
 
@@ -99,8 +89,6 @@ export type OwnerCountAggregateInputType = {
   phone?: true
   address?: true
   reminderChannel?: true
-  gdprConsent?: true
-  gdprConsentDate?: true
   createdAt?: true
   _all?: true
 }
@@ -185,8 +173,6 @@ export type OwnerGroupByOutputType = {
   phone: string
   address: string
   reminderChannel: $Enums.ReminderChannel
-  gdprConsent: boolean
-  gdprConsentDate: Date
   createdAt: Date
   _count: OwnerCountAggregateOutputType | null
   _min: OwnerMinAggregateOutputType | null
@@ -219,10 +205,9 @@ export type OwnerWhereInput = {
   phone?: Prisma.StringFilter<"Owner"> | string
   address?: Prisma.StringFilter<"Owner"> | string
   reminderChannel?: Prisma.EnumReminderChannelFilter<"Owner"> | $Enums.ReminderChannel
-  gdprConsent?: Prisma.BoolFilter<"Owner"> | boolean
-  gdprConsentDate?: Prisma.DateTimeFilter<"Owner"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"Owner"> | Date | string
   animals?: Prisma.AnimalListRelationFilter
+  consentRecords?: Prisma.ConsentRecordListRelationFilter
 }
 
 export type OwnerOrderByWithRelationInput = {
@@ -233,10 +218,9 @@ export type OwnerOrderByWithRelationInput = {
   phone?: Prisma.SortOrder
   address?: Prisma.SortOrder
   reminderChannel?: Prisma.SortOrder
-  gdprConsent?: Prisma.SortOrder
-  gdprConsentDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   animals?: Prisma.AnimalOrderByRelationAggregateInput
+  consentRecords?: Prisma.ConsentRecordOrderByRelationAggregateInput
 }
 
 export type OwnerWhereUniqueInput = Prisma.AtLeast<{
@@ -250,10 +234,9 @@ export type OwnerWhereUniqueInput = Prisma.AtLeast<{
   phone?: Prisma.StringFilter<"Owner"> | string
   address?: Prisma.StringFilter<"Owner"> | string
   reminderChannel?: Prisma.EnumReminderChannelFilter<"Owner"> | $Enums.ReminderChannel
-  gdprConsent?: Prisma.BoolFilter<"Owner"> | boolean
-  gdprConsentDate?: Prisma.DateTimeFilter<"Owner"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"Owner"> | Date | string
   animals?: Prisma.AnimalListRelationFilter
+  consentRecords?: Prisma.ConsentRecordListRelationFilter
 }, "id" | "email">
 
 export type OwnerOrderByWithAggregationInput = {
@@ -264,8 +247,6 @@ export type OwnerOrderByWithAggregationInput = {
   phone?: Prisma.SortOrder
   address?: Prisma.SortOrder
   reminderChannel?: Prisma.SortOrder
-  gdprConsent?: Prisma.SortOrder
-  gdprConsentDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.OwnerCountOrderByAggregateInput
   _max?: Prisma.OwnerMaxOrderByAggregateInput
@@ -283,8 +264,6 @@ export type OwnerScalarWhereWithAggregatesInput = {
   phone?: Prisma.StringWithAggregatesFilter<"Owner"> | string
   address?: Prisma.StringWithAggregatesFilter<"Owner"> | string
   reminderChannel?: Prisma.EnumReminderChannelWithAggregatesFilter<"Owner"> | $Enums.ReminderChannel
-  gdprConsent?: Prisma.BoolWithAggregatesFilter<"Owner"> | boolean
-  gdprConsentDate?: Prisma.DateTimeWithAggregatesFilter<"Owner"> | Date | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Owner"> | Date | string
 }
 
@@ -296,10 +275,9 @@ export type OwnerCreateInput = {
   phone: string
   address: string
   reminderChannel: $Enums.ReminderChannel
-  gdprConsent: boolean
-  gdprConsentDate: Date | string
   createdAt?: Date | string
   animals?: Prisma.AnimalCreateNestedManyWithoutOwnerInput
+  consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutOwnerInput
 }
 
 export type OwnerUncheckedCreateInput = {
@@ -310,10 +288,9 @@ export type OwnerUncheckedCreateInput = {
   phone: string
   address: string
   reminderChannel: $Enums.ReminderChannel
-  gdprConsent: boolean
-  gdprConsentDate: Date | string
   createdAt?: Date | string
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutOwnerInput
+  consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type OwnerUpdateInput = {
@@ -324,10 +301,9 @@ export type OwnerUpdateInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   reminderChannel?: Prisma.EnumReminderChannelFieldUpdateOperationsInput | $Enums.ReminderChannel
-  gdprConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  gdprConsentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animals?: Prisma.AnimalUpdateManyWithoutOwnerNestedInput
+  consentRecords?: Prisma.ConsentRecordUpdateManyWithoutOwnerNestedInput
 }
 
 export type OwnerUncheckedUpdateInput = {
@@ -338,10 +314,9 @@ export type OwnerUncheckedUpdateInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   reminderChannel?: Prisma.EnumReminderChannelFieldUpdateOperationsInput | $Enums.ReminderChannel
-  gdprConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  gdprConsentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutOwnerNestedInput
+  consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 export type OwnerCreateManyInput = {
@@ -352,8 +327,6 @@ export type OwnerCreateManyInput = {
   phone: string
   address: string
   reminderChannel: $Enums.ReminderChannel
-  gdprConsent: boolean
-  gdprConsentDate: Date | string
   createdAt?: Date | string
 }
 
@@ -365,8 +338,6 @@ export type OwnerUpdateManyMutationInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   reminderChannel?: Prisma.EnumReminderChannelFieldUpdateOperationsInput | $Enums.ReminderChannel
-  gdprConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  gdprConsentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -378,8 +349,6 @@ export type OwnerUncheckedUpdateManyInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   reminderChannel?: Prisma.EnumReminderChannelFieldUpdateOperationsInput | $Enums.ReminderChannel
-  gdprConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  gdprConsentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -391,8 +360,6 @@ export type OwnerCountOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   address?: Prisma.SortOrder
   reminderChannel?: Prisma.SortOrder
-  gdprConsent?: Prisma.SortOrder
-  gdprConsentDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -404,8 +371,6 @@ export type OwnerMaxOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   address?: Prisma.SortOrder
   reminderChannel?: Prisma.SortOrder
-  gdprConsent?: Prisma.SortOrder
-  gdprConsentDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -417,8 +382,6 @@ export type OwnerMinOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   address?: Prisma.SortOrder
   reminderChannel?: Prisma.SortOrder
-  gdprConsent?: Prisma.SortOrder
-  gdprConsentDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -435,12 +398,22 @@ export type EnumReminderChannelFieldUpdateOperationsInput = {
   set?: $Enums.ReminderChannel
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type OwnerCreateNestedOneWithoutConsentRecordsInput = {
+  create?: Prisma.XOR<Prisma.OwnerCreateWithoutConsentRecordsInput, Prisma.OwnerUncheckedCreateWithoutConsentRecordsInput>
+  connectOrCreate?: Prisma.OwnerCreateOrConnectWithoutConsentRecordsInput
+  connect?: Prisma.OwnerWhereUniqueInput
+}
+
+export type OwnerUpdateOneRequiredWithoutConsentRecordsNestedInput = {
+  create?: Prisma.XOR<Prisma.OwnerCreateWithoutConsentRecordsInput, Prisma.OwnerUncheckedCreateWithoutConsentRecordsInput>
+  connectOrCreate?: Prisma.OwnerCreateOrConnectWithoutConsentRecordsInput
+  upsert?: Prisma.OwnerUpsertWithoutConsentRecordsInput
+  connect?: Prisma.OwnerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OwnerUpdateToOneWithWhereWithoutConsentRecordsInput, Prisma.OwnerUpdateWithoutConsentRecordsInput>, Prisma.OwnerUncheckedUpdateWithoutConsentRecordsInput>
 }
 
 export type OwnerCreateNestedOneWithoutAnimalsInput = {
@@ -457,6 +430,70 @@ export type OwnerUpdateOneRequiredWithoutAnimalsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OwnerUpdateToOneWithWhereWithoutAnimalsInput, Prisma.OwnerUpdateWithoutAnimalsInput>, Prisma.OwnerUncheckedUpdateWithoutAnimalsInput>
 }
 
+export type OwnerCreateWithoutConsentRecordsInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  address: string
+  reminderChannel: $Enums.ReminderChannel
+  createdAt?: Date | string
+  animals?: Prisma.AnimalCreateNestedManyWithoutOwnerInput
+}
+
+export type OwnerUncheckedCreateWithoutConsentRecordsInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  address: string
+  reminderChannel: $Enums.ReminderChannel
+  createdAt?: Date | string
+  animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutOwnerInput
+}
+
+export type OwnerCreateOrConnectWithoutConsentRecordsInput = {
+  where: Prisma.OwnerWhereUniqueInput
+  create: Prisma.XOR<Prisma.OwnerCreateWithoutConsentRecordsInput, Prisma.OwnerUncheckedCreateWithoutConsentRecordsInput>
+}
+
+export type OwnerUpsertWithoutConsentRecordsInput = {
+  update: Prisma.XOR<Prisma.OwnerUpdateWithoutConsentRecordsInput, Prisma.OwnerUncheckedUpdateWithoutConsentRecordsInput>
+  create: Prisma.XOR<Prisma.OwnerCreateWithoutConsentRecordsInput, Prisma.OwnerUncheckedCreateWithoutConsentRecordsInput>
+  where?: Prisma.OwnerWhereInput
+}
+
+export type OwnerUpdateToOneWithWhereWithoutConsentRecordsInput = {
+  where?: Prisma.OwnerWhereInput
+  data: Prisma.XOR<Prisma.OwnerUpdateWithoutConsentRecordsInput, Prisma.OwnerUncheckedUpdateWithoutConsentRecordsInput>
+}
+
+export type OwnerUpdateWithoutConsentRecordsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  reminderChannel?: Prisma.EnumReminderChannelFieldUpdateOperationsInput | $Enums.ReminderChannel
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  animals?: Prisma.AnimalUpdateManyWithoutOwnerNestedInput
+}
+
+export type OwnerUncheckedUpdateWithoutConsentRecordsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  reminderChannel?: Prisma.EnumReminderChannelFieldUpdateOperationsInput | $Enums.ReminderChannel
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  animals?: Prisma.AnimalUncheckedUpdateManyWithoutOwnerNestedInput
+}
+
 export type OwnerCreateWithoutAnimalsInput = {
   id?: string
   firstName: string
@@ -465,9 +502,8 @@ export type OwnerCreateWithoutAnimalsInput = {
   phone: string
   address: string
   reminderChannel: $Enums.ReminderChannel
-  gdprConsent: boolean
-  gdprConsentDate: Date | string
   createdAt?: Date | string
+  consentRecords?: Prisma.ConsentRecordCreateNestedManyWithoutOwnerInput
 }
 
 export type OwnerUncheckedCreateWithoutAnimalsInput = {
@@ -478,9 +514,8 @@ export type OwnerUncheckedCreateWithoutAnimalsInput = {
   phone: string
   address: string
   reminderChannel: $Enums.ReminderChannel
-  gdprConsent: boolean
-  gdprConsentDate: Date | string
   createdAt?: Date | string
+  consentRecords?: Prisma.ConsentRecordUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type OwnerCreateOrConnectWithoutAnimalsInput = {
@@ -507,9 +542,8 @@ export type OwnerUpdateWithoutAnimalsInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   reminderChannel?: Prisma.EnumReminderChannelFieldUpdateOperationsInput | $Enums.ReminderChannel
-  gdprConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  gdprConsentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  consentRecords?: Prisma.ConsentRecordUpdateManyWithoutOwnerNestedInput
 }
 
 export type OwnerUncheckedUpdateWithoutAnimalsInput = {
@@ -520,9 +554,8 @@ export type OwnerUncheckedUpdateWithoutAnimalsInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   reminderChannel?: Prisma.EnumReminderChannelFieldUpdateOperationsInput | $Enums.ReminderChannel
-  gdprConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  gdprConsentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  consentRecords?: Prisma.ConsentRecordUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 
@@ -532,10 +565,12 @@ export type OwnerUncheckedUpdateWithoutAnimalsInput = {
 
 export type OwnerCountOutputType = {
   animals: number
+  consentRecords: number
 }
 
 export type OwnerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   animals?: boolean | OwnerCountOutputTypeCountAnimalsArgs
+  consentRecords?: boolean | OwnerCountOutputTypeCountConsentRecordsArgs
 }
 
 /**
@@ -555,6 +590,13 @@ export type OwnerCountOutputTypeCountAnimalsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.AnimalWhereInput
 }
 
+/**
+ * OwnerCountOutputType without action
+ */
+export type OwnerCountOutputTypeCountConsentRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ConsentRecordWhereInput
+}
+
 
 export type OwnerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -564,10 +606,9 @@ export type OwnerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   phone?: boolean
   address?: boolean
   reminderChannel?: boolean
-  gdprConsent?: boolean
-  gdprConsentDate?: boolean
   createdAt?: boolean
   animals?: boolean | Prisma.Owner$animalsArgs<ExtArgs>
+  consentRecords?: boolean | Prisma.Owner$consentRecordsArgs<ExtArgs>
   _count?: boolean | Prisma.OwnerCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["owner"]>
 
@@ -579,8 +620,6 @@ export type OwnerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   phone?: boolean
   address?: boolean
   reminderChannel?: boolean
-  gdprConsent?: boolean
-  gdprConsentDate?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["owner"]>
 
@@ -592,8 +631,6 @@ export type OwnerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   phone?: boolean
   address?: boolean
   reminderChannel?: boolean
-  gdprConsent?: boolean
-  gdprConsentDate?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["owner"]>
 
@@ -605,14 +642,13 @@ export type OwnerSelectScalar = {
   phone?: boolean
   address?: boolean
   reminderChannel?: boolean
-  gdprConsent?: boolean
-  gdprConsentDate?: boolean
   createdAt?: boolean
 }
 
-export type OwnerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "phone" | "address" | "reminderChannel" | "gdprConsent" | "gdprConsentDate" | "createdAt", ExtArgs["result"]["owner"]>
+export type OwnerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "phone" | "address" | "reminderChannel" | "createdAt", ExtArgs["result"]["owner"]>
 export type OwnerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   animals?: boolean | Prisma.Owner$animalsArgs<ExtArgs>
+  consentRecords?: boolean | Prisma.Owner$consentRecordsArgs<ExtArgs>
   _count?: boolean | Prisma.OwnerCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type OwnerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -622,6 +658,7 @@ export type $OwnerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name: "Owner"
   objects: {
     animals: Prisma.$AnimalPayload<ExtArgs>[]
+    consentRecords: Prisma.$ConsentRecordPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -631,8 +668,6 @@ export type $OwnerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     phone: string
     address: string
     reminderChannel: $Enums.ReminderChannel
-    gdprConsent: boolean
-    gdprConsentDate: Date
     createdAt: Date
   }, ExtArgs["result"]["owner"]>
   composites: {}
@@ -1029,6 +1064,7 @@ readonly fields: OwnerFieldRefs;
 export interface Prisma__OwnerClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   animals<T extends Prisma.Owner$animalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Owner$animalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnimalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  consentRecords<T extends Prisma.Owner$consentRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Owner$consentRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConsentRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1065,8 +1101,6 @@ export interface OwnerFieldRefs {
   readonly phone: Prisma.FieldRef<"Owner", 'String'>
   readonly address: Prisma.FieldRef<"Owner", 'String'>
   readonly reminderChannel: Prisma.FieldRef<"Owner", 'ReminderChannel'>
-  readonly gdprConsent: Prisma.FieldRef<"Owner", 'Boolean'>
-  readonly gdprConsentDate: Prisma.FieldRef<"Owner", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Owner", 'DateTime'>
 }
     
@@ -1480,6 +1514,30 @@ export type Owner$animalsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.AnimalScalarFieldEnum | Prisma.AnimalScalarFieldEnum[]
+}
+
+/**
+ * Owner.consentRecords
+ */
+export type Owner$consentRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ConsentRecord
+   */
+  select?: Prisma.ConsentRecordSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ConsentRecord
+   */
+  omit?: Prisma.ConsentRecordOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConsentRecordInclude<ExtArgs> | null
+  where?: Prisma.ConsentRecordWhereInput
+  orderBy?: Prisma.ConsentRecordOrderByWithRelationInput | Prisma.ConsentRecordOrderByWithRelationInput[]
+  cursor?: Prisma.ConsentRecordWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ConsentRecordScalarFieldEnum | Prisma.ConsentRecordScalarFieldEnum[]
 }
 
 /**
