@@ -1,6 +1,6 @@
-# week_5_start — Branch Notes
+# week_5_end — Branch Notes
 
-Improvements made on this branch to the `registry` API and the `api-gateway-service` in front of it (see [registry/README.md](registry/README.md) and [api-gateway-service/README.md](api-gateway-service/README.md) for full project docs).
+Improvements made on this branch to the `registry` API, the `api-gateway-service` in front of it, and (as of section 10) the `auth-service` wired into that gateway (see [registry/README.md](registry/README.md), [api-gateway-service/README.md](api-gateway-service/README.md), and [auth-service/README.md](auth-service/README.md) for full project docs). Section 10 is the implemented solution to [assignments.md](assignments.md).
 
 ## 1. Filter animals by species
 
@@ -170,6 +170,36 @@ Fixing this also surfaced a real bug: `server.ts` calls `express.json()` before 
 
 - [api-gateway-service/src/routes/registry.ts](api-gateway-service/src/routes/registry.ts) — `REGISTRY_PATHS` list, `fixRequestBody` wiring
 - [api-gateway-service/src/server.ts](api-gateway-service/src/server.ts)
+
+## 10. Auth service wired into the gateway (JWT-protected routes)
+
+The gateway can now issue and check identity, not just proxy blindly. This is the implemented version of [assignments.md](assignments.md) — see that file for the assignment framing this was built from.
+
+**What changed:**
+
+1. **Port collision fixed.** `registry` and `auth-service` both defaulted to `PORT=4000`. `auth-service` now runs on `4001` (`auth-service/.env`), and the gateway learned about it via a new `AUTH_SERVICE_URL` env var.
+2. **`/auth` is now proxied**, the same mechanical way `/owners`/`/animals`/`/vaccinations` already were — including the same `fixRequestBody` fix from section 9, since `POST /auth/register` and `POST /auth/login` are JSON bodies too.
+3. **The gateway verifies JWTs itself** (`src/middleware/authenticate.ts`), using a `JWT_SECRET` shared with `auth-service`, rather than calling `auth-service` on every protected request. See `api-gateway-service/README.md`'s "Authentication" section for the full reasoning on this trade-off.
+4. **`/owners` and `/animals` now require a valid token — `GET` included.** `/vaccinations` and `/auth` stay public. The line isn't "reads vs. writes," it's "does the response contain owner PII": `GET /animals/:id` nests the full `owner` object (email, phone, address, GDPR consent history), so an unauthenticated read of `/animals` would leak exactly what `/owners` protects.
+
+```http
+GET /owners             (via gateway, no token)
+→ 401 { "error": { "code": "UNAUTHORIZED", "message": "Missing or invalid Authorization header" } }
+
+POST /auth/register     (via gateway, http://localhost:3000)
+→ { "token": "eyJ...", "user": { "id": 1, "email": "...", "role": "USER" } }
+
+GET /owners             (via gateway, Authorization: Bearer <token>)
+→ 200 { "data": [...] }
+```
+
+A rejected request never reaches `registry` — confirmed by checking `registry`'s own request log during testing, which shows no entry for a request the gateway blocked.
+
+- [api-gateway-service/src/routes/auth.ts](api-gateway-service/src/routes/auth.ts) — the `/auth` proxy
+- [api-gateway-service/src/middleware/authenticate.ts](api-gateway-service/src/middleware/authenticate.ts) — JWT verification middleware
+- [api-gateway-service/src/server.ts](api-gateway-service/src/server.ts) — `PROTECTED_PATHS`, middleware mounting order
+- [api-gateway-service/README.md](api-gateway-service/README.md) — "Authentication" section, full reasoning
+- [auth-service/.env](auth-service/.env), [api-gateway-service/.env](api-gateway-service/.env) — port fix, shared secret
 
 ---
 

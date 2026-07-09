@@ -4,7 +4,7 @@
  * API GATEWAY TEST SUITE
  *
  * Run the gateway first: npm run dev
- * Make sure the registry service is also running on port 4000.
+ * Make sure registry (port 4000) and auth-service (port 4001) are also running.
  * Then run: node test-api.js
  */
 
@@ -12,9 +12,14 @@ const http = require('http');
 
 const PORT = 3000;
 
-async function request(method, path) {
+async function request(method, path, { body, token } = {}) {
   return new Promise((resolve, reject) => {
-    const options = { hostname: 'localhost', port: PORT, method, path };
+    const payload = body ? JSON.stringify(body) : null;
+    const headers = {
+      ...(payload ? { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(payload) } : {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    };
+    const options = { hostname: 'localhost', port: PORT, method, path, headers };
 
     const req = http.request(options, (res) => {
       let data = '';
@@ -29,33 +34,67 @@ async function request(method, path) {
     });
 
     req.on('error', reject);
+    if (payload) req.write(payload);
     req.end();
   });
 }
 
+const email = `test-suite-${Date.now()}@example.com`;
+const password = 'supersecret1';
+let token;
+
 const tests = [
-  { name: 'Health check',       fn: () => request('GET', '/health') },
-  { name: 'Get all animals',    fn: () => request('GET', '/animals') },
+  { name: 'Health check', fn: () => request('GET', '/health') },
+
+  { name: 'GET /vaccinations (public) without token', expect: 200,
+    fn: () => request('GET', '/vaccinations') },
+
+  { name: 'GET /owners (protected) without token -> 401', expect: 401,
+    fn: () => request('GET', '/owners') },
+
+  { name: 'POST /auth/register (public) -> issues a token', expect: 201,
+    fn: async () => {
+      const res = await request('POST', '/auth/register', { body: { email, password } });
+      token = res.data?.token;
+      return res;
+    } },
+
+  { name: 'POST /auth/login (public) with the same credentials', expect: 200,
+    fn: () => request('POST', '/auth/login', { body: { email, password } }) },
+
+  { name: 'GET /auth/me with token', expect: 200,
+    fn: () => request('GET', '/auth/me', { token }) },
+
+  { name: 'GET /owners (protected) with token -> 200', expect: 200,
+    fn: () => request('GET', '/owners', { token }) },
+
+  { name: 'GET /owners (protected) with a tampered token -> 401', expect: 401,
+    fn: () => request('GET', '/owners', { token: `${token?.slice(0, -1)}X` }) },
 ];
 
 async function runTests() {
   console.log('\nAPI GATEWAY TEST SUITE\n');
-  console.log('Make sure the gateway is running: npm run dev\n');
+  console.log('Make sure the gateway, registry, and auth-service are all running\n');
+
+  let failures = 0;
 
   for (const test of tests) {
     try {
       console.log(`Testing: ${test.name}`);
       const result = await test.fn();
-      const ok = result.status >= 200 && result.status < 300;
+      const ok = test.expect ? result.status === test.expect : result.status >= 200 && result.status < 300;
+      if (!ok) failures += 1;
       console.log(`  ${ok ? 'OK' : 'FAIL'} (${result.status})\n`);
     } catch (error) {
+      failures += 1;
       console.log(`  Connection Error: ${error.message}`);
       console.log(`  Make sure the gateway is running on port ${PORT}\n`);
       break;
     }
   }
 
-  console.log('Tests completed!\n');
+  console.log(failures === 0 ? 'All tests passed!\n' : `${failures} test(s) failed.\n`);
+  process.exitCode = failures === 0 ? 0 : 1;
 }
 
 runTests();
