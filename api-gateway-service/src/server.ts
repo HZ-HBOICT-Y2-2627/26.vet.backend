@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { registryProxy } from './routes/registry';
+import { registryProxy, REGISTRY_PATHS } from './routes/registry';
 import { errorHandler } from './middleware/errorHandling';
 
 dotenv.config();
@@ -34,7 +34,8 @@ app.use((_req, res) => {
 app.use(errorHandler);
 
 app.listen(PORT, () => {
+  const registryUrl = process.env.REGISTRY_SERVICE_URL || 'http://localhost:4000';
   console.log(`API gateway running at http://localhost:${PORT}`);
   console.log(`Environment: ${NODE_ENV}`);
-  console.log(`→ /animals   → ${process.env.REGISTRY_SERVICE_URL || 'http://localhost:4000'}`);
+  REGISTRY_PATHS.forEach((path) => console.log(`→ ${path.padEnd(14)} → ${registryUrl}`));
 });

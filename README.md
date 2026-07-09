@@ -1,6 +1,6 @@
-# week_4_start — Branch Notes
+# week_5_start — Branch Notes
 
-Improvements made on this branch to the `registry` API (see [registry/README.md](registry/README.md) for full project docs).
+Improvements made on this branch to the `registry` API and the `api-gateway-service` in front of it (see [registry/README.md](registry/README.md) and [api-gateway-service/README.md](api-gateway-service/README.md) for full project docs).
 
 ## 1. Filter animals by species
 
@@ -155,6 +155,21 @@ Existing owners' `gdpr_consent` / `gdpr_consent_date` values were backfilled int
 - [registry/src/services/OwnerService.ts](registry/src/services/OwnerService.ts)
 - [registry/src/types/index.ts](registry/src/types/index.ts)
 - [registry/prisma/seed.ts](registry/prisma/seed.ts)
+
+## 9. API gateway proxies all registry CRUD routes
+
+The gateway previously only forwarded `/animals`. It now proxies every registry route — `/owners`, `/animals`, and `/vaccinations` — covering the full CRUD surface (`GET`/`POST`/`PATCH`/`DELETE`) added in sections 1–8. It's a pass-through: the gateway doesn't re-implement any route or validation logic, it just forwards matching requests to the registry service and streams back whatever it returns.
+
+```http
+POST /animals          (via gateway, http://localhost:3000)
+→ proxied to registry   http://localhost:4000/animals
+→ 201 { "data": { "id": "...", ... } }
+```
+
+Fixing this also surfaced a real bug: `server.ts` calls `express.json()` before the proxy (so the gateway's own `/health` route and future local logic can read a JSON body), which drains the request stream. Without countermeasures, any proxied `POST`/`PATCH` would hang forever waiting for a body that was already consumed. The proxy now re-serializes the parsed body via `http-proxy-middleware`'s `fixRequestBody` helper, wired into `on.proxyReq`.
+
+- [api-gateway-service/src/routes/registry.ts](api-gateway-service/src/routes/registry.ts) — `REGISTRY_PATHS` list, `fixRequestBody` wiring
+- [api-gateway-service/src/server.ts](api-gateway-service/src/server.ts)
 
 ---
 
