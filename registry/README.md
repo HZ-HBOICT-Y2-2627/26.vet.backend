@@ -371,6 +371,19 @@ NODE_ENV=development
 
 ---
 
+## Future Upgrades
+
+A few dependency upgrades were deliberately held back (as of 2026-09) because they're either not stable yet or require code changes beyond a version bump:
+
+- **Prisma 8** — still in RC (`8.0.0-rc.x`) as of this writing, with breaking changes still landing between candidates (config file format, CLI command paths, env var names, SQL type-generic signature). Wait for GA before migrating.
+- **TypeScript 7** — ships with no programmatic compiler API until 7.1, which breaks `ts-node`/`ts-node-dev` (used by `npm run dev` and `npm run prisma:seed`). Either wait for 7.1 or migrate off `ts-node`/`ts-node-dev` (e.g. to `tsx`) first.
+- **Express 5** — major version with breaking changes to error handling and route syntax; needs a reviewed migration, not a routine bump.
+- **Zod 4** — major version with an API rewrite affecting `src/validation/schemas.ts`; needs a reviewed migration, not a routine bump.
+
+The `deepmerge-ts`/`mysql2` `overrides` in `package.json` patch high-severity CVEs in Prisma's own bundled CLI dependencies (unrelated to this project's SQLite setup) — they can likely be dropped once Prisma 8 GA is adopted, since that release restructures the CLI away from those packages.
+
+---
+
 ## Sample Data
 
 The seed script populates the registry with realistic Dutch veterinary data:
